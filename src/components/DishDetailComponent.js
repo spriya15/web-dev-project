@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { Card, CardImg, CardBody, CardTitle, CardText } from 'reactstrap';
+import React from 'react';
+import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
+
 function RenderDish({ dish }) {
   return (
     <div className="col-12 col-md-5 m-1">
@@ -13,6 +14,7 @@ function RenderDish({ dish }) {
     </div>
   );
 }
+
 function RenderComments({ comments }) {
   if (comments != null) {
     let comms = comments.map((comm, i) => {
@@ -43,10 +45,12 @@ function RenderComments({ comments }) {
   }
 }
 
-export const DishDetail = (props) => {
+const DishDetail = (props) => {
+  console.log('Dishdetail Component render invoked');
+
   if (props.dish != null) {
     return (
-      <div ClassName="container">
+      <div className="container">
         <div className="row">
           <RenderDish dish={props.dish} />
           <RenderComments comments={props.dish.comments} />
