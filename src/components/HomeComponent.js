@@ -10,7 +10,7 @@ import {
 function RenderCard({ item }) {
   return (
     <Card>
-      <CardImg scr={item.image} ait={item.name} />
+      <CardImg src={item.image} alt={item.name} />
       <CardBody>
         <CardTitle>{item.name}</CardTitle>
         {item.designation ? (
