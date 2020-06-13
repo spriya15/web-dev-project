@@ -23,7 +23,7 @@ function RenderLeader({ leader }) {
   );
 }
 
-const leaders = (props) => {
+export const leaders = (props) => {
   const leader = props.leaders.map((leader) => {
     return (
       <div key={leader.id} className="col-12 col-md-5 m-1">
