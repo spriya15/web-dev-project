@@ -23,11 +23,11 @@ function RenderLeader({ leader }) {
   );
 }
 
-export const leaders = (props) => {
+export const leader = (props) => {
   const leader = props.leaders.map((leader) => {
     return (
       <div key={leader.id} className="col-12 col-md-5 m-1">
-        <RenderLeader leader={leader} />
+        <RenderLeader key={leader.id} leader={leader} />
       </div>
     );
   });
@@ -109,7 +109,7 @@ function About(props) {
           <h2>Corporate Leadership</h2>
         </div>
         <div className="col-12">
-          <Media list>{leaders}</Media>
+          <Media list>{props.leader}</Media>
         </div>
       </div>
     </div>
