@@ -16,6 +16,7 @@ import {
   Label,
 } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Loading } from './LoadingComponent';
 
 import { Link } from 'react-router-dom';
 const requried = (val) => val && val.length;
@@ -170,9 +171,23 @@ function RenderComments({ comments, dishId, addComment }) {
 }
 
 const DishDetail = (props) => {
-  console.log('Dishdetail Component render invoked');
-
-  if (props.dish != null) {
+  if (props.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    );
+  } else if (props.errMess) {
+    return (
+      <div className="container">
+        <di className="row">
+          <h4>{props.errMess}</h4>
+        </di>
+      </div>
+    );
+  } else if (props.dish != null) {
     return (
       <div className="container">
         <div className="row">
