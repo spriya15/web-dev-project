@@ -34,8 +34,13 @@ class CommentForm extends Component {
   }
 
   handleSubmit(values) {
-    console.log('Current state' + JSON.stringify(values));
-    alert('Current state' + JSON.stringify(values));
+    this.toggleModal();
+    this.props.addComment(
+      this.props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    );
   }
   toggleModal() {
     this.setState({
@@ -73,10 +78,10 @@ class CommentForm extends Component {
                   </Control.select>
                 </Row>
                 <Row className="form-group">
-                  <Label htmlFor="name">Your Name</Label>
+                  <Label htmlFor="author">Your Name</Label>
                   <Control.text
-                    model=".name"
-                    name="name"
+                    model=".author"
+                    name="author"
                     className="form-control"
                     placeholder="Your Name"
                     validators={{
@@ -133,7 +138,7 @@ function RenderDish({ dish }) {
   );
 }
 
-function RenderComments({ comments, dishId }) {
+function RenderComments({ comments, dishId, addComment }) {
   if (comments != null) {
     let comms = comments.map((comm, i) => {
       let date = new Intl.DateTimeFormat('en-US', {
@@ -156,7 +161,7 @@ function RenderComments({ comments, dishId }) {
       <div className="col-12 col-md-5 m-1">
         <h4>Comments</h4>
         <div>{comms}</div>
-        <CommentForm dishId={dishId} />
+        <CommentForm dishId={dishId} addComment={addComment} />
       </div>
     );
   } else {
@@ -184,7 +189,11 @@ const DishDetail = (props) => {
         </div>
         <div className="row">
           <RenderDish dish={props.dish} />
-          <RenderComments comments={props.comment} />
+          <RenderComments
+            comments={props.comments}
+            addComment={props.addComment}
+            dishId={props.dish.id}
+          />
         </div>
       </div>
     );
