@@ -17,6 +17,7 @@ import {
 } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 import { Link } from 'react-router-dom';
 const requried = (val) => val && val.length;
@@ -129,7 +130,7 @@ function RenderDish({ dish }) {
   return (
     <div className="col-12 col-md-5 m-1">
       <Card>
-        <CardImg width="100" src={dish.image} alt={dish.name} />
+        <CardImg width="100" src={baseUrl + dish.image} alt={dish.name} />
         <CardBody>
           <CardTitle>{dish.name}</CardTitle>
           <CardText>{dish.description}</CardText>
@@ -139,7 +140,7 @@ function RenderDish({ dish }) {
   );
 }
 
-function RenderComments({ comments, dishId, addComment }) {
+function RenderComments({ comments, dishId, addComments }) {
   if (comments != null) {
     let comms = comments.map((comm, i) => {
       let date = new Intl.DateTimeFormat('en-US', {
@@ -162,7 +163,7 @@ function RenderComments({ comments, dishId, addComment }) {
       <div className="col-12 col-md-5 m-1">
         <h4>Comments</h4>
         <div>{comms}</div>
-        <CommentForm dishId={dishId} addComment={addComment} />
+        <CommentForm dishId={dishId} addComments={addComments} />
       </div>
     );
   } else {
