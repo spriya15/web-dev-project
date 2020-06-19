@@ -7,6 +7,7 @@ import {
   CardTitle,
   CardSubtitle,
 } from 'reactstrap';
+
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 import { FadeTransform } from 'react-animation-components';
@@ -57,7 +58,11 @@ function Home(props) {
           />
         </div>
         <div className="col-12 col-md m-1">
-          <RenderCard item={props.leader} />
+          {/* <RenderCard
+            item={props.leader}
+            isloading={props.leadersLoading}
+            errMess={props.leadersErrMess}
+          /> */}
         </div>
       </div>
     </div>
