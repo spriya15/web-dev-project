@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Menu from './MenuComponent';
+import DishDetail from './DishDetailComponent';
 import Header from './HeaderComponent';
+import Footer from './FooterComponent';
 import Home from './HomeComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
-import DishDetail from './DishDetailComponent';
-import Footer from './FooterComponent';
+
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -14,9 +15,19 @@ import {
   fetchComments,
   fetchPromos,
   fetchLeaders,
+  postFeedback,
 } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
+const mapStateToProps = (state) => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+    promotions: state.promotions,
+    leaders: state.leaders,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   postComment: (dishId, rating, author, comment) =>
@@ -27,35 +38,26 @@ const mapDispatchToProps = (dispatch) => ({
   resetFeedbackForm: () => {
     dispatch(actions.reset('feedback'));
   },
-  fetchComments: () => {
-    dispatch(fetchComments());
-  },
   fetchPromos: () => {
     dispatch(fetchPromos());
+  },
+  fetchComments: () => {
+    dispatch(fetchComments());
   },
   fetchLeaders: () => {
     dispatch(fetchLeaders());
   },
+  postFeedback: (feedback) => dispatch(postFeedback(feedback)),
 });
 
-const mapStateToProps = (state) => {
-  return {
-    dishes: state.dishes,
-    comments: state.comments,
-    promotions: state.promotions,
-    leaders: state.leaders,
-  };
-};
 class Main extends Component {
-  constructor(props) {
-    super(props);
-  }
   componentDidMount() {
     this.props.fetchDishes();
     this.props.fetchComments();
     this.props.fetchPromos();
     this.props.fetchLeaders();
   }
+
   render() {
     const HomePage = () => {
       return (
@@ -70,14 +72,15 @@ class Main extends Component {
           }
           promosLoading={this.props.promotions.isLoading}
           promosErrMess={this.props.promotions.errMess}
-          leaders={
-            this.props.leader.leader.filter((leader) => leader.featured)[0]
+          leader={
+            this.props.leaders.leaders.filter((leader) => leader.featured)[0]
           }
-          leadersLoading={this.props.leader.isLoading}
-          leadersErrMess={this.props.leader.errMess}
+          leadersLoading={this.props.leaders.isLoading}
+          leadersErrMess={this.props.leaders.errMess}
         />
       );
     };
+
     const DishWithId = ({ match }) => {
       return (
         <DishDetail
@@ -87,15 +90,16 @@ class Main extends Component {
             )[0]
           }
           isLoading={this.props.dishes.isLoading}
-          errMess={this.props.dishes.errmess}
+          errMess={this.props.dishes.errMess}
           comments={this.props.comments.comments.filter(
             (comment) => comment.dishId === parseInt(match.params.dishId, 10)
           )}
+          commentsErrMess={this.props.comments.errMess}
           postComment={this.props.postComment}
-          commentsErrMess={this.props.comments.errmess}
         />
       );
     };
+
     return (
       <div>
         <Header />
@@ -107,7 +111,6 @@ class Main extends Component {
           >
             <Switch>
               <Route path="/home" component={HomePage} />
-              <Route exact path="/aboutus" component={About} />
               <Route
                 exact
                 path="/menu"
@@ -118,15 +121,21 @@ class Main extends Component {
                 exact
                 path="/contactus"
                 component={() => (
-                  <Contact resetFeedbackForm={this.props.resetFeedbackForm} />
+                  <Contact
+                    resetFeedbackForm={this.props.resetFeedbackForm}
+                    postFeedback={this.props.postFeedback}
+                  />
                 )}
               />
-
+              <Route
+                exact
+                path="/aboutus"
+                component={() => <About leaders={this.props.leaders} />}
+              />
               <Redirect to="/home" />
             </Switch>
           </CSSTransition>
         </TransitionGroup>
-
         <Footer />
       </div>
     );

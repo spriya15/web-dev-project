@@ -10,12 +10,12 @@ import {
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
-import { Fade, Stagger } from 'react-animation-components';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 function About(props) {
-  //   const leaders = props.leaders.leaders.map((leader) => {
-  //     return <RenderLeader leader={leader} />;
-  //   });
+  const leaders = props.leaders.leaders.map((leader) => {
+    return <RenderLeader leader={leader} />;
+  });
 
   function RenderLeader({ leader }) {
     return (
@@ -34,13 +34,18 @@ function About(props) {
     );
   }
 
-  // function RenderLeaders() {
-  //   if (props.leaders.isLoading) {
-  //     return <Loading />;
-  //   } else if (props.leaders.errMess) {
-  //     return <h4>{props.leaders.errMess}</h4>;
-  //   } else return <Media list>{ <Stagger in>{leaders}</Stagger> }</Media>;
-  // }
+  function RenderLeaders() {
+    if (props.leaders.isLoading) {
+      return <Loading />;
+    } else if (props.leaders.errMess) {
+      return <h4>{props.leaders.errMess}</h4>;
+    } else
+      return (
+        <Media list>
+          <Stagger in>{leaders}</Stagger>
+        </Media>
+      );
+  }
 
   return (
     <div className="container">
@@ -117,9 +122,9 @@ function About(props) {
         <div className="col-12">
           <h2>Corporate Leadership</h2>
         </div>
-        {/* <div className="col-12">
+        <div className="col-12">
           <RenderLeaders />
-        </div> */}
+        </div>
       </div>
     </div>
   );

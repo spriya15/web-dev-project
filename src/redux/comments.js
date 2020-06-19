@@ -1,4 +1,4 @@
-import * as ActionTypes from './ActionTypes';
+import * as ActionTypes from './actionTypes';
 
 export const Comments = (
   state = {
@@ -15,6 +15,7 @@ export const Comments = (
         errMess: null,
         comments: action.payload,
       };
+
     case ActionTypes.COMMENTS_FAILED:
       return {
         ...state,
@@ -22,11 +23,9 @@ export const Comments = (
         errMess: action.payload,
         comments: [],
       };
+
     case ActionTypes.ADD_COMMENT:
       var comment = action.payload;
-
-      console.log('Comment: ', comment);
-      
       return { ...state, comments: state.comments.concat(comment) };
 
     default:
