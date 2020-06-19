@@ -70,7 +70,7 @@ class Main extends Component {
           }
           promosLoading={this.props.promotions.isLoading}
           promosErrMess={this.props.promotions.errMess}
-          leader={
+          leaders={
             this.props.leader.leader.filter((leader) => leader.featured)[0]
           }
           leadersLoading={this.props.leader.isLoading}
